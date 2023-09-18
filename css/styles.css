@@ -1,43 +1,42 @@
-*{
+* {
     box-sizing: border-box;
 }
 
-body{
-    height: 100vh;
+body {
     margin: 0;
 }
 
-main{
+main {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom: 20vmin;
+    /* padding-bottom: 20vmin; */
     /* border-style: solid;
     border-color: black; */
 }
 
-.flex-grid{
+.flex-grid {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     align-items: center;
-    height: 50vmin;
+    height: 60vh;
     width: 100vmin;
-    /* border-style: solid;
-    border-color: black; */
+    border-style: solid;
+    border-color: black;
 }
 
-.flex-grid div{
+.flex-grid div {
     border-width: 1px;
     border-style: solid;
     border-color: rgb(167, 170, 167);
-    height: 10%;
+    height: 6%;
     width: 5%;
     padding: 5px;
 }
 
-.flex-grid div.hero {  
+.flex-grid div.hero {
     background-color: red;
 }
 

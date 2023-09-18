@@ -62,3 +62,19 @@ Difficulties
 - accessing array elements properly in order to compare two arrays
 - ordering the action of checking for out of bounds now that I am using arrays rather than single numbers
 - still hardcoding the boundaries of the board as set arrays
+
+### Day 3
+
+Goals
+- discuss current progression with the teachers
+- fix my grid border situation
+- automate the shooting mechanic
+- (optional) collision mechanic
+
+Difficulties
+- still struggling with CSS not being perfect, but have decided to focus on functionality as it is passable at this point
+- struggling with clearing intervals of specific actions - for example, if there is a collision, stop each bullet moving rather than stop all bullets moving -> fixed this by incorporating the collision detection within the initial bullet movement function, so it is all tied down to the same bullet
+- the setInterval for the movement of the enemies is clearing up my collisions and the enemies are all respawning -> fixed it by taking the enemy away from the original enemies array
+
+
+

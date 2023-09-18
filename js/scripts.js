@@ -9,6 +9,7 @@ function init() {
     const cells = [] //all the cells in an array! remember to use it!
     const bordersRight = [19, 39, 59, 79, 99, 119, 139, 159, 179, 199, 219, 239, 259, 279, 299]
     const bordersLeft = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280]
+
     let currentDirection = 'right'
 
     const enemyArr = [0, 2, 4, 6, 8, 10, 40, 42, 44, 46, 48, 50, 80, 82, 84, 86, 88, 90]
@@ -19,7 +20,12 @@ function init() {
     const startingEnemyPosition = enemyArr
     let currentEnemyPosition = startingEnemyPosition
 
-    let bulletPosition = (currentHeroPosition - height)
+    let startingBulletPosition = currentHeroPosition - height
+    let bulletPosition = startingBulletPosition
+
+    const bulletsOutThere = []
+
+    let score = 0
 
     //! FUNCTIONS
     //* GRID
@@ -31,12 +37,10 @@ function init() {
             grid.appendChild(cell)
             //add it to the array so we can iterate and access each cell later on
             cells.push(cell)
-            //give it a number so we can see it better
             // cell.innerText = i
             //give it an dataset attribute so we can target it later without being fancy
             cell.setAttribute('dataset-index', i)
-            //style the cell itself
-            // cell.style.width = `${100 / width}%`
+
         }
 
         //adding the hero at the start position whenever we refresh the grid
@@ -62,10 +66,10 @@ function init() {
         const key = event.key
         toggleHero(currentHeroPosition)
 
-        if (key === "ArrowLeft" && currentHeroPosition > 280) {
+        if ((key === "ArrowLeft" || key === "a") && currentHeroPosition > 280) {
             currentHeroPosition -= 1
         }
-        else if (key === "ArrowRight" && currentHeroPosition < 299) {
+        else if ((key === "ArrowRight" || key === "d") && currentHeroPosition < 299) {
             currentHeroPosition += 1
         }
         toggleHero(currentHeroPosition)
@@ -165,35 +169,72 @@ function init() {
     }
 
     //* SHOOTING
-    function showBullet(position){
+    function showBullet(position) {
         const cell = cells[position]
         cell.classList.add('bullet')
     }
-    function hideBullet(position){
+    function hideBullet(position) {
         const cell = cells[position]
         cell.classList.remove('bullet')
     }
 
     function shooting(event) {
         const key = event.key
-        
-        if(key === " "){
-            bulletMovement(bulletPosition)
+        if (key === " " || key === "Enter") {
+            bulletMovement(currentHeroPosition, bulletsOutThere.length)
         }
+    }
 
-    function bulletMovement(){
-        //create a new variable to store the inital position
-        //so you can trigger the function several times for several positions
-        hideBullet(bulletPosition)
-        showBullet(bulletPosition)
-        bulletPosition -= height
-        hideBullet(bulletPosition)
-    } 
-    
+    function bulletMovement(position, bulletIndex) {
+        const bulletMovementInterval = setInterval(() => {
 
+            if (position >= 0 && position <= 19) {
+                clearInterval(bulletMovementInterval)
+                hideBullet(position)
 
+                if (bulletIndex !== -1) {
+                    bulletsOutThere.splice(bulletIndex, 1)
+                }
+
+            }
+            else {
+                //moving the bullet
+                showBullet(position)
+                hideBullet(position)
+                position -= height
+                showBullet(position)
+
+                //check for collisions
+                const cell = cells[position]
+                if (cell && cell.classList.contains('enemy')) {
+                    cell.classList.remove('enemy')
+                    cell.classList.remove('bullet')
+                    //remove this cell from the enemyArr?
+                    const enemyIndex = enemyArr.indexOf(position)
+                    if (enemyIndex !== -1) {
+                        enemyArr.splice(enemyIndex, 1)
+                    }
+
+                    clearInterval(bulletMovementInterval)
+                    score++
+
+                    hideBullet(position)
+
+                    if (bulletIndex !== -1) {
+                        bulletsOutThere.splice(bulletIndex, 1)
+                    }
+                }
+            }
+        }, 200)
+
+        bulletsOutThere.push(bulletMovementInterval)
+        console.log(score)
 
     }
+
+
+    //*COLLISION DETECTION -> now incorporated within the bulletMovement
+
 
     //! EVENT LISTENERS
     document.addEventListener('keydown', heroMovement)
@@ -201,7 +242,11 @@ function init() {
 
     //! CALL THE FUNCTIONS HERE PLEASE
     createGrid()
-    
+
+    const enemyMovementInterval = setInterval(() => {
+        moveAllEnemies(enemyArr, cells)
+    }, 1000)
+
 
 }
 window.addEventListener('DOMContentLoaded', init)
