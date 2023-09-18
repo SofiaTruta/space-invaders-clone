@@ -76,5 +76,7 @@ Difficulties
 - struggling with clearing intervals of specific actions - for example, if there is a collision, stop each bullet moving rather than stop all bullets moving -> fixed this by incorporating the collision detection within the initial bullet movement function, so it is all tied down to the same bullet
 - the setInterval for the movement of the enemies is clearing up my collisions and the enemies are all respawning -> fixed it by taking the enemy away from the original enemies array
 
+Here are some screenshots of what it looks like today:
+(can't capture the movement very well, but it is there!)
 
-
+![screenshot 1 of the initial project stages](https://i.imgur.com/gWWgj1Qb.png) and ![screenshot 2 of the initial project stages](https://i.imgur.com/gag3JQSb.png)
