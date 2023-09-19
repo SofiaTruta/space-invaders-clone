@@ -80,3 +80,20 @@ Here are some screenshots of what it looks like today:
 (can't capture the movement very well, but it is there!)
 
 ![screenshot 1 of the initial project stages](https://i.imgur.com/gWWgj1Qb.png) and ![screenshot 2 of the initial project stages](https://i.imgur.com/gag3JQSb.png)
+
+### Day 4
+
+Goals
+- bomb mechanic
+- player lives mechanic
+- header with counter (not styled)
+
+Difficulties
+- struggling with implementing a function to deal damage, unsure if related to scope, or if logic not right -> asked for help from TA and we played around with the order of the if statements which fixed it
+- bullet and bomb collision. This consumed most of my day, until late in the evening. After discussing with 2 TA's, unable to fix the issue, but identified it is connected with the timings of the functions, which leads to bombs or bullets moving on from their position before javascript gets to it in time to register the collision
+
+Very frustrating day today - tomorrow I will focus on styling it and giving it a header and working on other smaller functions like game over
+
+screenshot at the end of the day:
+
+![screenshot 1 of mid level progress](https://i.imgur.com/wRmeJ6G.png)

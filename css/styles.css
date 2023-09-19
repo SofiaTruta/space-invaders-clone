@@ -11,6 +11,7 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    /* background-color: bisque; */
     
 }
 
@@ -32,20 +33,35 @@ main {
     width: 5%;
     padding: 5px;
     background-color: black;
+    /* color: white; */
 }
 
 .flex-grid div.hero {
-    background-image: url("https://i.imgur.com/3yO2VP5s.png");
+    background-image: url("https://i.imgur.com/cqHpfI7s.jpg");
     background-size: contain;
     background-repeat: no-repeat;
 }
 
 .flex-grid div.enemy {
-    background-image: url("https://i.imgur.com/RIx3xgJs.png");
+    background-image: url("https://i.imgur.com/FR1dZjfs.jpg");
     background-size: cover;
 }
 
 .flex-grid div.bullet {
     background-image: url("https://i.imgur.com/m18ZvyS.png");
     background-size: cover;
+}
+
+.flex-grid div.bomb{
+    background-image: url("https://i.imgur.com/DRmAyzJs.png");
+    background-size: 50%;
+background-repeat: no-repeat;
+    background-color: aqua;
+    background-size: cover;
+}
+
+/* HEADER */
+
+header{
+    background-color: yellow;
 }
