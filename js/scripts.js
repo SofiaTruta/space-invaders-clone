@@ -11,7 +11,9 @@ const bordersLeft = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 
 
 let currentDirection = 'right'
 
-const enemyArr = [0, 2, 4, 6, 8, 10, 40, 42, 44, 46, 48, 50, 80, 82, 84, 86, 88, 90]
+let enemyArr = [0, 2, 4, 6, 8, 10, 40, 42, 44, 46, 48, 50, 80, 82, 84, 86, 88, 90]
+const originalEnemyArr = [0, 2, 4, 6, 8, 10, 40, 42, 44, 46, 48, 50, 80, 82, 84, 86, 88, 90]
+
 
 const startingHeroPosition = 289
 let currentHeroPosition = startingHeroPosition
@@ -28,9 +30,50 @@ const bombsOutThere = []
 let score = 0
 let lives = 3
 
+let enemySpeed = 1000
+let bombSpeed = 300
+
+const hero = document.querySelector('.hero')
+
 //HEADER
+const body = document.querySelector('body')
+const header = document.querySelector('header')
+const title = document.createElement('h1')
+const subtitle = document.createElement('p')
 
+//SECTION
+const section = document.querySelector('section')
+const livesDisplay = document.createElement('h2')
+const scoreDisplay = document.createElement('h2')
 
+//timers as variables so I can call them in other places
+let enemyMovementInterval
+let bombGeneratingInterval
+let displayLivesAndScore
+
+//GAME OVER SCREEN
+const scoreDisplayGameOver = document.getElementById('score-display')
+
+const scoreHeader = document.getElementById("score-header")
+scoreHeader.appendChild(scoreDisplayGameOver)
+const gameOverScreen = document.getElementById('game-over-screen')
+
+let gameOverDisplay = 0
+
+const playAgainBtn = document.getElementById('play-again')
+
+//INTRO SCREEN
+const introScreen = document.getElementById('intro-screen')
+const playBtn = document.getElementById('play')
+
+let introDisplay = 0
+
+//AUDIO
+const gun = document.getElementById('gun-audio')
+const damage = document.getElementById('damage-audio')
+const gameOverMusic = document.getElementById('game-over-music')
+const gameMusic = document.getElementById('game-music')
+gameMusic.play()
 
 
 //! FUNCTIONS
@@ -43,9 +86,7 @@ function createGrid() {
         grid.appendChild(cell)
         //add it to the array so we can iterate and access each cell later on
         cells.push(cell)
-        // cell.innerText = i
-        //give it an dataset attribute so we can target it later without being fancy
-        // cell.setAttribute('dataset-index', i)
+    
 
     }
 
@@ -107,6 +148,7 @@ function moveAllEnemies(array1, array2) {
         hideAllEnemies(array1, array2)
         currentDirection = null
         clearInterval(enemyMovementInterval)
+        gameOver()
     }
     else if (currentDirection === 'right') {
         //check if any enemy is out of bounds
@@ -187,6 +229,7 @@ function hideBullet(position) {
 function shooting(event) {
     const key = event.key
     if (key === " " || key === "Enter") {
+        gun.play()
         bulletMovement(currentHeroPosition, bulletsOutThere.length)
     }
 }
@@ -213,7 +256,6 @@ function bulletMovement(position, bulletIndex) {
             //check for collisions
             const bulletCell = cells[position]
             if (bulletCell.classList.contains('bomb')) {
-                console.log('bomb')
                 clearInterval(bulletMovementInterval)
                 hideBullet(position)
             }
@@ -228,6 +270,7 @@ function bulletMovement(position, bulletIndex) {
 
                 clearInterval(bulletMovementInterval)
                 score++
+                checkScore()
 
                 hideBullet(position)
 
@@ -237,7 +280,6 @@ function bulletMovement(position, bulletIndex) {
             }
         }
     }, 200)
-
     bulletsOutThere.push(bulletMovementInterval)
 }
 
@@ -279,74 +321,163 @@ function bombMovement(position) {
             position += height
             showBomb(position)
         }
-        
-    }, 1000)
+
+    }, bombSpeed)
 }
-
-//*COLLISION DETECTION -> now incorporated within the bulletMovement and bombMovement
-// function collisionDetection(position){
-//     const hero = document.getElementsByClassName('hero')
-//     const cell = cells[position]
-
-//     for(const element of hero){
-//         if(element.classList.contains('hero') && element.classList.contains('bomb')){
-         
-//         }
-//     }
-
-// }
-
 
 
 //* HERO DAMAGE AND LIVES
 function dealDamage() {
-    if (lives <= 1) {
+    damage.play()
+    if (lives === 1) {
         gameOver()
+    }
+    else if (lives === 2) {
+        // hero.classList.add('last-life')
+        livesDisplay.style.color = 'red';
+        const changingBackgroundColor = setInterval(() => {
+            const backgroundColorsArr = ['blue', 'green', 'pink']
+            const colorRandomiser = Math.floor(Math.random() * backgroundColorsArr.length)
+            const colorPicker = backgroundColorsArr[colorRandomiser]
+            livesDisplay.style.backgroundColor = colorPicker
+        }, 500)
+        lives--
     }
     else {
         lives--
     }
 }
 
+//*NEXT WAVE
+function checkScore() {
+    if (score % 18 === 0) {
+        nextEnemyWave()
+    }
+    else if (score % 36 === 0) {
+        nextBombWave()
+    }
+}
+
+function resetEnemies() {
+    enemyArr = [...originalEnemyArr]
+}
+
+function nextEnemyWave() {
+    resetEnemies()
+    clearInterval(enemyMovementInterval)
+    enemyMovementInterval = setInterval(() => {
+        if (enemyArr.length !== 0) {
+            moveAllEnemies(enemyArr, cells)
+        }
+    }, enemySpeed /= 1.5)
+}
+
+function nextBombWave() {
+    clearInterval(bombGeneratingInterval)
+    bombGeneratingInterval = setInterval(() => {
+        const randomIndex = Math.floor(Math.random() * enemyArr.length)
+        let randomBomb = enemyArr[randomIndex]
+        if (enemyArr.length > 1) {
+            bombMovement(randomBomb)
+        }
+    }, 3000)
+}
+
+
 //*GAME OVER
 function gameOver() {
-    console.log('game over')
+    
+    scoreDisplayGameOver.textContent = `${score}`
+    scoreDisplayGameOver.style.textAlign = 'center'
+    toggleGameOver()
+    clearInterval(enemyMovementInterval)
+    clearInterval(bombGeneratingInterval)
+    
+    gameOverMusic.play()
 }
 
-//*HEADER STYLING AND POPULATING
+//*PLAY AGAIN
+function playAgain() {
+    location.reload()
+}
+
+
+//*HEADER POPULATING
 function createHeader() {
-    // const body = document.querySelector('body')
-    // const header = document.createElement('header')
-    // const title = document.createElement('h1')
-    // title.textContent = 'Project 1'
 
-    // header.appendChild(title)
-    // body.prepend(header)
+    title.textContent = 'stress creators'
+    subtitle.textContent = 'it is totally not space invaders'
+    header.prepend(title)
+    header.appendChild(subtitle)
+
+    livesDisplay.classList.add('lives')
+    scoreDisplay.classList.add('hits')
+
+    section.appendChild(livesDisplay)
+    section.appendChild(scoreDisplay)
 }
 
+//*GAME OVER SCREEN
+function toggleGameOver() {
+    gameMusic.pause()
+    if (gameOverDisplay === 0) {
+        gameOverScreen.style.display = 'flex'
+        gameOverDisplay = 1
+    }
+    else {
+        gameOverScreen.style.display = 'none'
+        gameOverDisplay = 0
+    }
+}
+
+//*INTRO SCREEN
+function toggleIntro(){
+    if (introDisplay === 0){
+        introScreen.style.display = 'flex'
+        introDisplay = 1
+    }
+    else {
+        introScreen.style.display = 'none'
+        introDisplay = 0
+    }
+}
 
 //! EVENT LISTENERS
 document.addEventListener('keydown', heroMovement)
 document.addEventListener('keyup', shooting)
+playAgainBtn.addEventListener('click', playAgain)
+introScreen.addEventListener('click', ()=>{
+    toggleIntro()
+})
+document.addEventListener('keydown', (event) =>{
+    if(event.key === 'Escape'){
+        gameMusic.pause()
+    }
+})
+
 
 //! CALL THE FUNCTIONS HERE PLEASE
-
-
 window.addEventListener('DOMContentLoaded', () => {
     createHeader()
     createGrid()
 
+    enemyMovementInterval = setInterval(() => {
+        if (enemyArr.length !== 0) {
+            moveAllEnemies(enemyArr, cells)
+        }
+    }, enemySpeed)
 
-    const enemyMovementInterval = setInterval(() => {
-        moveAllEnemies(enemyArr, cells)
-    }, 1000)
 
-    const bombGeneratingInterval = setInterval(() => {
+    bombGeneratingInterval = setInterval(() => {
         const randomIndex = Math.floor(Math.random() * enemyArr.length)
         let randomBomb = enemyArr[randomIndex]
-        bombMovement(randomBomb)
+        if (enemyArr.length > 1) {
+            bombMovement(randomBomb)
+        }
     }, 5000)
 
-    // const collisionDetectionTimer = setInterval(collisionDetection, 1000)
-
+    displayLivesAndScore = setInterval(() => {
+        livesDisplay.textContent = `lives = ${lives}`
+        scoreDisplay.textContent = `score = ${score}`
+    }, 100)
 })

@@ -1,18 +1,67 @@
+@font-face {
+    font-family: 'silkscreen';
+    src: url('../fonts/slkscreb-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'silkscreen';
+    src: url('../fonts/slkscreb-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+
+}
+
 * {
     box-sizing: border-box;
+    font-family: "silkscreen", monospace;
 }
 
 body {
     margin: 0;
+    background-color: beige;
+    position: relative;
+
+}
+
+.container {
+    height: 90vh;
+    width: 80vw;
+    padding: 3%;
+    margin: 0 auto;
+}
+
+header {
+    margin: 0;
+    height: 15vh;
+    background-color: #16f2c2;
+    font-family: barcade, monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+section {
+    background-color: rgb(239, 239, 134);
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    height: 10vh;
 }
 
 main {
-    height: 100vh;
+    height: 65vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: bisque; */
-    
+    background-color: black;
+
 }
 
 .flex-grid {
@@ -22,8 +71,9 @@ main {
     align-items: center;
     height: 60vh;
     width: 90vmin;
+    padding-bottom: 2px;
     border-style: solid;
-    border-width: 6px; 
+    border-width: 6px;
     border-color: #d90bce;
 }
 
@@ -33,11 +83,16 @@ main {
     width: 5%;
     padding: 5px;
     background-color: black;
-    /* color: white; */
 }
 
 .flex-grid div.hero {
     background-image: url("https://i.imgur.com/cqHpfI7s.jpg");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.flex-grid div.hero.last-life {
+    background-image: url("https://i.imgur.com/pJrsNtDs.png");
     background-size: contain;
     background-repeat: no-repeat;
 }
@@ -52,16 +107,61 @@ main {
     background-size: cover;
 }
 
-.flex-grid div.bomb{
+.flex-grid div.bomb {
     background-image: url("https://i.imgur.com/DRmAyzJs.png");
     background-size: 50%;
-background-repeat: no-repeat;
+    background-repeat: no-repeat;
     background-color: aqua;
     background-size: cover;
 }
 
-/* HEADER */
+/* GAME OVER */
+#game-over-screen {
+    display: none;
+    position: absolute;
+    background-color: rgba(188, 4, 188, 0.9);
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
 
-header{
-    background-color: yellow;
+.message-container, .intro-container {
+    background-color: beige;
+    height: 65vh;
+    width: 40vw;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10vmin;
+}
+
+#play-again, #play {
+    padding: 10px;
+    border: 3px;
+    border-style: solid;
+    border-color: #d90bce;
+    box-shadow: 3px 3px 1px #d90bce;
+}
+
+/* INTRO SCREEN */
+
+#intro-screen {
+    display: flex;
+    position: absolute;
+    background-color: rgba(188, 4, 188, 0.9);
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }

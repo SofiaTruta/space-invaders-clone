@@ -97,3 +97,18 @@ Very frustrating day today - tomorrow I will focus on styling it and giving it a
 screenshot at the end of the day:
 
 ![screenshot 1 of mid level progress](https://i.imgur.com/wRmeJ6G.png)
+
+### Day 5
+
+Goals
+- style the page around game
+- incorporate lives counter and hit counter
+- game over function and screen
+- (optional) waves of difficulty
+
+Extra things done today:
+- small sound effects
+
+Difficulties
+- struggling to dynamically change the class of my hero and target it so I can change it's appearance based on lives
+- struggling to clearIntervals when gameOver of when enemies out of bounds -> worked out it was a scope situation, I was calling all these intervals inside an event listener for DOM loading rather than initializing them globally and then assigning them a value inside the event listener

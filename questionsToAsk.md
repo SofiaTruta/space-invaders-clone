@@ -1,3 +1,4 @@
+OPTIONAL
 ## bullet - bomb collision
 it is a timings issue. how to fix?
 - mutation observer not appropriate
@@ -5,5 +6,7 @@ it is a timings issue. how to fix?
 - getElementsByClassName also not helpful for the same reason
 - async? await? promises?
 
+## changing a style dynamically based on lives
 
-
+## ideas
+- get a telly around the grid and make it a screen

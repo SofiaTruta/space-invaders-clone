@@ -1,18 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project 1 GA SEI75</title>
     <link rel="stylesheet" href="./css/styles.css">
 </head>
-<body>
-    <main>
-        <section class="flex-grid">
-            
-        </section>
-    </main>
 
+<body>
+    <div class="container">
+        <div class="intro-screen" id="intro-screen">
+            <div class="intro-container">
+                <h2>Ready?</h2>
+                <button id="play">play!</button>
+            </div>
+        </div>
+        <div class="message">
+            <p>press Esc for pausing music</p>
+        </div>
+        <header></header>
+        <section></section>
+        <main>
+            <section class="flex-grid">
+            </section>
+            <audio src="../project-1-space-invaders-clone-sofia-truta/audio/gun-shooting.mp3" id="gun-audio"></audio>
+            <audio src="../project-1-space-invaders-clone-sofia-truta/audio/hurt_c_08-102842.mp3" id="damage-audio"></audio>
+            <audio src="../project-1-space-invaders-clone-sofia-truta/audio/space-invaders-classic-arcade-game-116826.mp3" id="game-music"></audio>
+        </main>
+       
+
+
+        <div class="game-over-screen" id="game-over-screen">
+            <div class="message-container">
+                <h2>you lost!</h2>
+                <h3 id="score-header">your score: </h3>
+                <h3 id="score-display"></h3>
+                <button id="play-again">play again</button>
+                <audio id="game-over-music"
+                    src="../project-1-space-invaders-clone-sofia-truta/audio/game-over-arcade-6435.mp3"></audio>
+            </div>
+
+        </div>
+    </div>
     <script src="./js/scripts.js"></script>
 </body>
+
 </html>
