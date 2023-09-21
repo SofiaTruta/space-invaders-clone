@@ -103,7 +103,7 @@ main {
 }
 
 .flex-grid div.bullet {
-    background-image: url("https://i.imgur.com/m18ZvyS.png");
+    background-image: url("https://i.imgur.com/Y41LoRk.png");
     background-size: cover;
 }
 
@@ -139,6 +139,7 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+    text-align: center;
     padding: 10vmin;
 }
 
@@ -164,4 +165,18 @@ main {
     align-items: center;
     justify-content: center;
     height: 100vh;
+}
+
+
+#name{
+    width: 30vw;
+    height: 5vh;
+    border-style: solid;
+    border-width: 3px;
+    border-color:black;
+    background-color: beige;
+}
+
+#name-label{
+    text-align: center;
 }

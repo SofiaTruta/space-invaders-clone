@@ -15,7 +15,7 @@ First board layout
 
 first full project whiteboard
 
-![project whiteboard ideas, inc board layout and steps antecipated to code the whole game](https://i.imgur.com/s77nhBD.png)
+![project whiteboard ideas, inc board layout and steps anticipated to code the whole game](https://i.imgur.com/s77nhBD.png)
 
 (feel free to make the image bigger and have a read [here](https://imgur.com/s77nhBD))
 
@@ -35,6 +35,11 @@ the deadline for completing this project is 7 days.
 - add music and sound effects
 - create a "you lost" screen that displays player score vs high score
 - create a "start game" screen
+
+### know project issues
+- bomb collision not working
+- compatibility with safari not great (runs slower and audio flickers)
+- occasional game over screen flicker
 
 ## Project Diary
 Here I will jot down my daily thoughts throughout the development of this game. It is mostly a self-reflection tool but also a way to share the struggle with others!
@@ -107,8 +112,20 @@ Goals
 - (optional) waves of difficulty
 
 Extra things done today:
-- small sound effects
+- music and sound effects
 
 Difficulties
-- struggling to dynamically change the class of my hero and target it so I can change it's appearance based on lives
+- dynamically change the class of my hero and target it so I can change it's appearance based on lives
 - struggling to clearIntervals when gameOver of when enemies out of bounds -> worked out it was a scope situation, I was calling all these intervals inside an event listener for DOM loading rather than initializing them globally and then assigning them a value inside the event listener
+
+![screenshot of landing screen](https://i.imgur.com/VlaYSys.png)
+![screenshot of game with styling](https://i.imgur.com/tw2wDoJ.png)
+![screenshot of game over screen](https://i.imgur.com/xo1FO1Y.png)
+
+### Day 6
+
+Goals
+- play / pause whole game
+- add high score tracking (local storage)
+
+Difficulties

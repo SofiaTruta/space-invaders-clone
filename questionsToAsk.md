@@ -1,12 +1,5 @@
-OPTIONAL
-## bullet - bomb collision
-it is a timings issue. how to fix?
-- mutation observer not appropriate
-- separate collision detection not appropriate as timers inside functions so unable to access them
-- getElementsByClassName also not helpful for the same reason
-- async? await? promises?
-
-## changing a style dynamically based on lives
-
-## ideas
-- get a telly around the grid and make it a screen
+## Known issues
+- bomb collision not working
+- would like to be able to style dynamically (unable to style hero dynamically)
+- game starting when page loading rather than on button click
+-compatibility with safari not great (runs slower and audio flickers)

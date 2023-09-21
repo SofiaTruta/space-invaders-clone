@@ -51,6 +51,10 @@ let enemyMovementInterval
 let bombGeneratingInterval
 let displayLivesAndScore
 
+//PLAY / PAUSE GAME
+
+let gamePaused = true
+
 //GAME OVER SCREEN
 const scoreDisplayGameOver = document.getElementById('score-display')
 
@@ -69,12 +73,19 @@ const playBtn = document.getElementById('play')
 let introDisplay = 0
 
 //AUDIO
-const gun = document.getElementById('gun-audio')
-const damage = document.getElementById('damage-audio')
-const gameOverMusic = document.getElementById('game-over-music')
-const gameMusic = document.getElementById('game-music')
-gameMusic.play()
+const gun = new Audio('../project-1-space-invaders-clone-sofia-truta/audio/gun-shooting.mp3')
+const damage = new Audio('../project-1-space-invaders-clone-sofia-truta/audio/hurt_c_08-102842.mp3')
+const gameOverMusic = new Audio('../project-1-space-invaders-clone-sofia-truta/audio/game-over-arcade-6435.mp3')
+const gameMusic = new Audio('../project-1-space-invaders-clone-sofia-truta/audio/space-invaders-classic-arcade-game-116826.mp3')
+const nextWave = new Audio('../project-1-space-invaders-clone-sofia-truta/audio/next-wave.wav')
 
+let gameMusicFlag = 0
+
+//LEADERBOARD
+const nameInput = document.getElementById('name')
+let highScore = 0
+let highScoreName = null
+const highScoreDisplay = document.getElementById('highscore')
 
 //! FUNCTIONS
 //* GRID
@@ -86,8 +97,6 @@ function createGrid() {
         grid.appendChild(cell)
         //add it to the array so we can iterate and access each cell later on
         cells.push(cell)
-    
-
     }
 
     //adding the hero at the start position whenever we refresh the grid
@@ -147,7 +156,7 @@ function moveAllEnemies(array1, array2) {
     if (outOfBoundsBottom) {
         hideAllEnemies(array1, array2)
         currentDirection = null
-        clearInterval(enemyMovementInterval)
+        // clearInterval(enemyMovementInterval)
         gameOver()
     }
     else if (currentDirection === 'right') {
@@ -363,6 +372,7 @@ function resetEnemies() {
 }
 
 function nextEnemyWave() {
+    nextWave.play()
     resetEnemies()
     clearInterval(enemyMovementInterval)
     enemyMovementInterval = setInterval(() => {
@@ -386,14 +396,14 @@ function nextBombWave() {
 
 //*GAME OVER
 function gameOver() {
-    
     scoreDisplayGameOver.textContent = `${score}`
     scoreDisplayGameOver.style.textAlign = 'center'
     toggleGameOver()
     clearInterval(enemyMovementInterval)
     clearInterval(bombGeneratingInterval)
-    
     gameOverMusic.play()
+    storeScore()
+    getHighScore()
 }
 
 //*PLAY AGAIN
@@ -431,30 +441,110 @@ function toggleGameOver() {
 }
 
 //*INTRO SCREEN
-function toggleIntro(){
-    if (introDisplay === 0){
+function toggleIntro() {
+    if (introDisplay === 0) {
         introScreen.style.display = 'flex'
         introDisplay = 1
+        checkMusic()
+        checkMusic() //two calls for this function on purpose - user interaction with DOM
     }
     else {
         introScreen.style.display = 'none'
         introDisplay = 0
+        checkMusic()
     }
 }
+
+//* PLAY AND PAUSE GAME
+function pauseGame() {
+    console.log('pause')
+    clearInterval(enemyMovementInterval)
+    clearInterval(bombGeneratingInterval)
+    console.log('moving enemies', enemyMovementInterval)
+    gamePaused = true
+    checkMusic()
+}
+
+function resumeGame() {
+    enemyMovementInterval = setInterval(() => {
+        if (enemyArr.length !== 0) {
+            moveAllEnemies(enemyArr, cells);
+        }
+    }, enemySpeed)
+
+    bombGeneratingInterval = setInterval(() => {
+        const randomIndex = Math.floor(Math.random() * enemyArr.length);
+        let randomBomb = enemyArr[randomIndex];
+        if (enemyArr.length > 1) {
+            bombMovement(randomBomb);
+        }
+    }, 5000)
+
+    gamePaused = false
+    checkMusic()
+}
+
+//*MUSIC 
+function checkMusic() {
+    if (gameMusicFlag === 1) {
+        gameMusic.pause()
+        gameMusicFlag = 0
+    }
+    else {
+        gameMusic.play()
+        gameMusicFlag = 1
+    }
+}
+
+//* LEADERBOARD
+function storeScore() {
+    localStorage.setItem(nameInput.value, score)
+}
+
+function getHighScore() {
+    const keys = Object.keys(localStorage)
+
+    for (const key of keys) {
+        const value = localStorage.getItem(key)
+        const score = value
+        if (score > highScore) {
+            highScore = score
+            highScoreName = key
+        }
+    }
+
+    highScoreDisplay.textContent = `Highscore: ${highScoreName} - ${highScore}`
+}
+
 
 //! EVENT LISTENERS
 document.addEventListener('keydown', heroMovement)
 document.addEventListener('keyup', shooting)
 playAgainBtn.addEventListener('click', playAgain)
-introScreen.addEventListener('click', ()=>{
+playBtn.addEventListener('click', () => {
     toggleIntro()
 })
-document.addEventListener('keydown', (event) =>{
-    if(event.key === 'Escape'){
-        gameMusic.pause()
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        checkMusic()
     }
 })
 
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'p') {
+        
+        if (gamePaused) {
+            resumeGame()
+            checkMusic()
+            gamePaused = false
+        }
+        else if (!gamePaused) {
+            pauseGame()
+            checkMusic()
+            gamePaused = true
+        }
+    }
+})
 
 //! CALL THE FUNCTIONS HERE PLEASE
 window.addEventListener('DOMContentLoaded', () => {
