@@ -129,3 +129,5 @@ Goals
 - add high score tracking (local storage)
 
 Difficulties
+- pause and resume functions not working
+- audio not working when playing game on gitPages (but working locally)
