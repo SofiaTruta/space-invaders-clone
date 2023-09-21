@@ -76,7 +76,7 @@ let introDisplay = false
 const gun = new Audio('./audio/gun-shooting.mp3')
 const damage = new Audio('./audio/hurt_c_08-102842.mp3')
 const gameOverMusic = new Audio('./audio/game-over-arcade-6435.mp3')
-const gameMusic = new Audio('./audio/space-invaders-classic-arcade-game-116826.mp3')
+const gameMusic = new Audio('./audio/game-music.mp3')
 const nextWave = new Audio('./audio/next-wave.wav')
 
 let gameMusicFlag = 0

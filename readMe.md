@@ -129,5 +129,5 @@ Goals
 - add high score tracking (local storage)
 
 Difficulties
-- pause and resume functions not working
-- audio not working when playing game on gitPages (but working locally)
+- pause and resume functions not working (I have decided to drop this and focus on initializing the game properly when Play button pressed)
+- Highscore tracking not adequately tracking
