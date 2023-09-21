@@ -73,11 +73,11 @@ const playBtn = document.getElementById('play')
 let introDisplay = 0
 
 //AUDIO
-const gun = new Audio('./project-1-space-invaders-clone-sofia-truta/audio/gun-shooting.mp3')
-const damage = new Audio('./project-1-space-invaders-clone-sofia-truta/audio/hurt_c_08-102842.mp3')
-const gameOverMusic = new Audio('./project-1-space-invaders-clone-sofia-truta/audio/game-over-arcade-6435.mp3')
-const gameMusic = new Audio('./project-1-space-invaders-clone-sofia-truta/audio/space-invaders-classic-arcade-game-116826.mp3')
-const nextWave = new Audio('./project-1-space-invaders-clone-sofia-truta/audio/next-wave.wav')
+const gun = new Audio('./audio/gun-shooting.mp3')
+const damage = new Audio('.audio/hurt_c_08-102842.mp3')
+const gameOverMusic = new Audio('./audio/game-over-arcade-6435.mp3')
+const gameMusic = new Audio('./audio/space-invaders-classic-arcade-game-116826.mp3')
+const nextWave = new Audio('./audio/next-wave.wav')
 
 let gameMusicFlag = 0
 
