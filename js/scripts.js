@@ -70,11 +70,11 @@ const playAgainBtn = document.getElementById('play-again')
 const introScreen = document.getElementById('intro-screen')
 const playBtn = document.getElementById('play')
 
-let introDisplay = 0
+let introDisplay = false
 
 //AUDIO
 const gun = new Audio('./audio/gun-shooting.mp3')
-const damage = new Audio('.audio/hurt_c_08-102842.mp3')
+const damage = new Audio('./audio/hurt_c_08-102842.mp3')
 const gameOverMusic = new Audio('./audio/game-over-arcade-6435.mp3')
 const gameMusic = new Audio('./audio/space-invaders-classic-arcade-game-116826.mp3')
 const nextWave = new Audio('./audio/next-wave.wav')
@@ -442,15 +442,14 @@ function toggleGameOver() {
 
 //*INTRO SCREEN
 function toggleIntro() {
-    if (introDisplay === 0) {
+    if (introDisplay === false) {
         introScreen.style.display = 'flex'
-        introDisplay = 1
+        introDisplay = true
         checkMusic()
-        checkMusic() //two calls for this function on purpose - user interaction with DOM
     }
     else {
         introScreen.style.display = 'none'
-        introDisplay = 0
+        introDisplay = false
         checkMusic()
     }
 }
@@ -518,36 +517,51 @@ function getHighScore() {
 
 
 //! EVENT LISTENERS
-document.addEventListener('keydown', heroMovement)
-document.addEventListener('keyup', shooting)
-playAgainBtn.addEventListener('click', playAgain)
+
 playBtn.addEventListener('click', () => {
     toggleIntro()
-})
-document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-        checkMusic()
+    if (!gameStarted) {
+        initializeGame();
     }
 })
+document.addEventListener('keydown', (event) => {
 
-document.addEventListener('keydown', (event) => {
-    if (event.key === 'p') {
-        
-        if (gamePaused) {
-            resumeGame()
+    if (gameStarted) {
+        if (event.key === 'Escape') {
             checkMusic()
-            gamePaused = false
         }
-        else if (!gamePaused) {
-            pauseGame()
-            checkMusic()
-            gamePaused = true
+        if (event.key === 'p') {
+
+            if (gamePaused) {
+                resumeGame()
+                checkMusic()
+                gamePaused = false
+            }
+            else if (!gamePaused) {
+                pauseGame()
+                checkMusic()
+                gamePaused = true
+            }
         }
     }
 })
+playAgainBtn.addEventListener('click', playAgain)
 
 //! CALL THE FUNCTIONS HERE PLEASE
-window.addEventListener('DOMContentLoaded', () => {
+// window.addEventListener('DOMContentLoaded', () => {
+
+
+
+// })
+
+//* INITIALIZE THE GAME
+
+let gameStarted = false
+
+function initializeGame() {
+    document.addEventListener('keydown', heroMovement)
+    document.addEventListener('keyup', shooting)
+
     createHeader()
     createGrid()
 
@@ -570,4 +584,8 @@ window.addEventListener('DOMContentLoaded', () => {
         livesDisplay.textContent = `lives = ${lives}`
         scoreDisplay.textContent = `score = ${score}`
     }, 100)
-})
+
+    checkMusic()
+    gameStarted = true
+}
+
