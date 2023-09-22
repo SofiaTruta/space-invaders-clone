@@ -93,17 +93,14 @@ function createGrid() {
     for (let i = 0; i < cellCount; i++) {
         //we create a new div for every cell
         const cell = document.createElement('div')
-        //append it to the grid so it shows
+      
         grid.appendChild(cell)
         //add it to the array so we can iterate and access each cell later on
         cells.push(cell)
     }
 
-    //adding the hero at the start position whenever we refresh the grid
+    //adding the hero and enemies to their starting position
     toggleHero(startingHeroPosition)
-
-    //adding enemy when we refresh the grid
-    // showEnemy(startingEnemyPosition)
     showAllEnemies(enemyArr, cells)
 }
 
@@ -153,10 +150,10 @@ function hideAllEnemies(array1, array2) {
 function moveAllEnemies(array1, array2) {
 
     const outOfBoundsBottom = array1.some(item => item > 279)
+
     if (outOfBoundsBottom) {
         hideAllEnemies(array1, array2)
         currentDirection = null
-        // clearInterval(enemyMovementInterval)
         gameOver()
     }
     else if (currentDirection === 'right') {
@@ -342,7 +339,6 @@ function dealDamage() {
         gameOver()
     }
     else if (lives === 2) {
-        // hero.classList.add('last-life')
         livesDisplay.style.color = 'red';
         const changingBackgroundColor = setInterval(() => {
             const backgroundColorsArr = ['blue', 'green', 'pink']
@@ -491,6 +487,7 @@ function checkMusic() {
     }
     else {
         gameMusic.play()
+        gameMusic.volume = 0.5
         gameMusicFlag = 1
     }
 }
@@ -547,12 +544,6 @@ document.addEventListener('keydown', (event) => {
 })
 playAgainBtn.addEventListener('click', playAgain)
 
-//! CALL THE FUNCTIONS HERE PLEASE
-// window.addEventListener('DOMContentLoaded', () => {
-
-
-
-// })
 
 //* INITIALIZE THE GAME
 
@@ -588,4 +579,3 @@ function initializeGame() {
     checkMusic()
     gameStarted = true
 }
-
